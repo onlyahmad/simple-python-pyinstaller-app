@@ -29,7 +29,7 @@ pipeline {
         }
         stage("Manual Approval"){ 
             steps {
-                   input message: 'Lanjutkan ke tahap Deploy? (Klik "Proceed" untuk mengakhiri)'             
+                   input message: 'Lanjutkan ke tahap Deploy? (Klik "Proceed" ke tahap Deploy)'             
 
             }
 
@@ -45,12 +45,13 @@ pipeline {
                         unstash(name: 'compiled-results') 
                         sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'" 
                     }                
-                sleep 60 
             }
             post {
                 success {
                     sh "git push heroku master"
+                    sleep 60 
                 }
+                
             }
         }
     }
